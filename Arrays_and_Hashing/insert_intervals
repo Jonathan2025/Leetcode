@@ -1,0 +1,23 @@
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+
+        result = []
+
+        for i in range(len(intervals)):
+            #interval[i] will be the current interval
+            if newInterval[1] < intervals[i][0]:                
+                result.append(newInterval) # 2 Since the new interval comes BEFORE the current interval we can just append newInterval first and then the rest of intervals. IMPORTANT, note that in the first iteration WE CAN ENSURE that if newInterval comes before the current Interval that means newInterval is LESS than ALL other intervals
+                return result + intervals[i:]
+
+            elif newInterval[0] > intervals[i][1]: 
+# 2 Now we could have the new interval coming AFTER the current interval.BUT we may still have an overlap because we will need to go through the other iterations
+                result.append(intervals[i])
+
+            else: 
+                # last case is that we could have an overlap 
+                newInterval = [min(newInterval[0], intervals[i][0]), max(newInterval[1], intervals[i][1])]
+
+        # NOW after the loop, for the cases 2 and 3 we can append the newInterval to the result 
+
+        result.append(newInterval)
+        return result
